@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/theme/theme.dart';
-import 'package:flutter_application/theme/theme_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:flutter_application/auth/login_or_register.dart';
+import 'theme/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'pages/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child:  const MyApp(),
@@ -17,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:  const HomePage(),
+      home:   const LoginOrRegister(),
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
