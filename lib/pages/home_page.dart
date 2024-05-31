@@ -10,18 +10,18 @@ class HomePage extends StatelessWidget{
 
   void logout(){
     //get auth service
-    final _auth = AuthService();
-    _auth.signOut();
+    final auth = AuthService();
+    auth.signOut();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
         actions: [
           //logout button
-          IconButton(onPressed: logout, icon: Icon(Icons.logout),)
+          IconButton(onPressed: logout, icon: const Icon(Icons.logout),)
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
