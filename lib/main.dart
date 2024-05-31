@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application/auth/auth_gate.dart';
 import 'firebase_options.dart';
-import 'package:flutter_application/auth/login_or_register.dart';
 import 'theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:   const LoginOrRegister(),
+      home:   const AuthGate(),
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
