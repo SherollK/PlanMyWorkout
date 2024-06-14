@@ -62,7 +62,7 @@ class RegisterPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
+              
               const SizedBox(height: 150),
               //logo
               Icon(
@@ -140,9 +140,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-        
-        
+              ),             
             ],
           ),
         ),
