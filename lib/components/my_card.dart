@@ -21,7 +21,7 @@ class MyCard extends StatelessWidget {
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
         child: ListTile(
-          leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
+          leading: Icon(icon, color: Colors.green.shade400),
           title: Text(title, style: const TextStyle(fontSize: 18.0)),
           subtitle: Text(subtitle),
           onTap: () {
