@@ -91,13 +91,7 @@ class _WeatherPageState extends State<WeatherPage> {
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
               ),
-            ),
-            Text(
-              "  ${DateFormat("d.m").format(now)}",
-              style: const TextStyle(
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            ), 
           ],
         )
       ],

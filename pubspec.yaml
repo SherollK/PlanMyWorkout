@@ -41,6 +41,8 @@ dependencies:
   google_nav_bar: ^5.0.6
   weather: ^3.1.1
   intl: ^0.18.1
+  # geolocator: ^9.0.2
+  # permission_handler: ^10.2.0
 
 
 dev_dependencies:
