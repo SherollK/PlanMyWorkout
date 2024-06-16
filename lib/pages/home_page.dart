@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application/components/main_card.dart';
 import 'package:flutter_application/components/my_card.dart';
 import 'package:flutter_application/components/my_drawer.dart';

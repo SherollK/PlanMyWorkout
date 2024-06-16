@@ -127,7 +127,7 @@ class _TrackerPageState extends State<TrackerPage> {
               },
             );
           } else {
-            return const Text("Add your workout plan!");
+            return const Center(child: Text("Add your workout plan!"));
           }
         },
       ),
