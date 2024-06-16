@@ -16,32 +16,33 @@ class FirestoreService {
     return FirebaseFirestore.instance.collection('users').doc(userId).collection('notes');
   }
 
-  //CREATE: add a new note
-    Future<void> addNote(String note){
-      return userNotes.add({
-        'note': note,
-        'timestamp': Timestamp.now(),
-      });
-    }
-      
-    //READ: get a note from database
-    Stream<QuerySnapshot> getNotesStream(){
-      final notesStream = 
-        userNotes.orderBy('timestamp', descending: false).snapshots();
-      return notesStream;
-      
-    }
-  
-    //UPDATE: update a note
-    Future<void> updateNote(String docId, String newNote){
-      return userNotes.doc(docId).update({
-        'note': newNote,
-        'timestamp': Timestamp.now(),
-      });
-    }
-  
-    //DELETE: delete a note
-    Future<void> deleteNote(String docId){
-      return userNotes.doc(docId).delete();
-    }
+  // CREATE: add a new note
+  Future<void> addNote(String note, String details) {
+    return userNotes.add({
+      'note': note,
+      'details': details,
+      'timestamp': Timestamp.now(),
+    });
+  }
+
+  // READ: get a note from database
+  Stream<QuerySnapshot> getNotesStream() {
+    final notesStream =
+      userNotes.orderBy('timestamp', descending: false).snapshots();
+    return notesStream;
+  }
+
+  // UPDATE: update a note
+  Future<void> updateNote(String docId, String newNote, String newDetails) {
+    return userNotes.doc(docId).update({
+      'note': newNote,
+      'details': newDetails,
+      'timestamp': Timestamp.now(),
+    });
+  }
+
+  // DELETE: delete a note
+  Future<void> deleteNote(String docId) {
+    return userNotes.doc(docId).delete();
+  }
 }

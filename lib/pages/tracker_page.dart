@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application/pages/note_details_page.dart';
 import 'package:flutter_application/services/firestore.dart';
 
 class TrackerPage extends StatefulWidget {
@@ -10,41 +11,53 @@ class TrackerPage extends StatefulWidget {
 }
 
 class _TrackerPageState extends State<TrackerPage> {
-  final FirestoreService firestoreService = FirestoreService(); //firestor
+  final FirestoreService firestoreService = FirestoreService();
 
-  final TextEditingController textController =
-      TextEditingController(); //text controller for the note
+  final TextEditingController textController = TextEditingController();
+  final TextEditingController detailsController = TextEditingController();
 
-  //open a dialog to add a new note
-  void openNoteBox({String? docId}) {
+  void openNoteBox({String? docId, String? note, String? details}) {
+    textController.text = note ?? '';
+    detailsController.text = details ?? '';
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        content: TextField(
-          controller: textController,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: textController,
+              decoration: const InputDecoration(labelText: 'Workout Plan'),
+            ),
+            TextField(
+              controller: detailsController,
+              decoration: const InputDecoration(labelText: 'Details'),
+              maxLines: 3,
+            ),
+          ],
         ),
         actions: [
-          //button to save the note
           ElevatedButton(
-              onPressed: () {
-                if (docId == null) {
-                  firestoreService
-                      .addNote(textController.text); //add a new note
-                } else {
-                  firestoreService.updateNote(
-                      docId, textController.text); //update the exixting note
-                }
+            onPressed: () {
+              if (docId == null) {
+                firestoreService.addNote(
+                  textController.text, detailsController.text);
+              } else {
+                firestoreService.updateNote(docId, textController.text, detailsController.text);
+              }
 
-                textController.clear(); //clear the text field
-                Navigator.pop(context); //close the dialog
-              },
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.green.shade400),
-                foregroundColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.background),
-              ),
-              child: const Text("Add"))
+              textController.clear();
+              detailsController.clear();
+              Navigator.pop(context);
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.green.shade400),
+              foregroundColor: MaterialStateProperty.all(
+                Theme.of(context).colorScheme.background),
+            ),
+            child: const Text("Save"),
+          ),
         ],
       ),
     );
@@ -64,7 +77,7 @@ class _TrackerPageState extends State<TrackerPage> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: openNoteBox,
+        onPressed: () => openNoteBox(),
         backgroundColor: Colors.green.shade400,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
@@ -74,56 +87,55 @@ class _TrackerPageState extends State<TrackerPage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: firestoreService.getNotesStream(),
         builder: (context, snapshot) {
-          //if we have data, get all the docs
           if (snapshot.hasData) {
             List notesList = snapshot.data!.docs;
-            //display as a list
+
             return ListView.builder(
               itemCount: notesList.length,
               itemBuilder: (context, index) {
-                //get each individual doc
                 DocumentSnapshot document = notesList[index];
                 String docId = document.id;
 
-                //get note from each doc
-                Map<String, dynamic> data =
-                    document.data() as Map<String, dynamic>;
-                String noteText = data['note'];
+                Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                String noteText = data['note'] ?? 'No title';
+                String noteDetails = data['details'] ?? 'No details available';
 
-                //display as a list tile
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 10.0,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   child: ListTile(
-                  tileColor: Colors.green.shade400,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  title: Text(
-                    noteText,
-                    style: TextStyle(
-                    color: Theme.of(context).colorScheme.background,
+                    tileColor: Colors.green.shade400,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    title: Text(
+                      noteText,
+                      style: TextStyle(color: Theme.of(context).colorScheme.background),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NoteDetailsPage(note: noteText, details: noteDetails),
+                        ),
+                      );
+                    },
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () => openNoteBox(docId: docId, note: noteText, details: noteDetails),
+                          icon: const Icon(Icons.edit),
+                          color: Theme.of(context).colorScheme.background,
+                        ),
+                        IconButton(
+                          onPressed: () => firestoreService.deleteNote(docId),
+                          icon: const Icon(Icons.delete),
+                          color: Theme.of(context).colorScheme.background,
+                        ),
+                      ],
                     ),
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                    IconButton(
-                      onPressed: () => openNoteBox(docId: docId),
-                      icon: const Icon(Icons.edit),
-                      color: Theme.of(context).colorScheme.background,
-                    ),
-                    IconButton(
-                      onPressed: () => firestoreService.deleteNote(docId),
-                      icon: const Icon(Icons.delete),
-                      color: Theme.of(context).colorScheme.background,
-                    ),
-                    ],
-                  ),
-                  ),
-                );                 
+                );
               },
             );
           } else {
