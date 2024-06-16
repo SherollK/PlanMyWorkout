@@ -22,8 +22,9 @@ class MyCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
         child: ListTile(
           leading: Icon(icon, color: Colors.green.shade400),
-          title: Text(title, style: const TextStyle(fontSize: 18.0)),
+          title: Text(title, style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
           subtitle: Text(subtitle),
+            trailing: Icon(Icons.arrow_forward_ios, color: Colors.green.shade400),
           onTap: () {
             Navigator.push(
               context,

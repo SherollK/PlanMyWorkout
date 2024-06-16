@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application/components/main_card.dart';
 import 'package:flutter_application/components/my_card.dart';
 import 'package:flutter_application/components/my_drawer.dart';
@@ -15,28 +16,31 @@ class HomePage extends StatelessWidget{
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         titleTextStyle: TextStyle(
-            fontSize: 18, color: Theme.of(context).colorScheme.primary),
-        title: Row(
+            fontSize: 18.0, 
+            color: Theme.of(context).colorScheme.inversePrimary,
+            fontWeight: FontWeight.w600,
+        ),
+
+        title: const Row(
           mainAxisSize: MainAxisSize
               .min, 
           children: [
-            Icon(Icons.home,
-                color: Theme.of(context).colorScheme.primary), 
-            const SizedBox(width: 8), 
-            const Text("Home"),
+            Icon(Icons.home), 
+            SizedBox(width: 8), 
+            Text("Home"),
           ],
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         centerTitle: true,
       ),
       drawer: const MyDrawer(),
       body: ListView(
         children: const [
-          SizedBox(height: 46), 
+          SizedBox(height: 26), 
           MainCard(),
-          SizedBox(height: 46),
+          SizedBox(height: 36),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: Text(
@@ -49,9 +53,9 @@ class HomePage extends StatelessWidget{
             ),
           ),
           MyCard(
-            title: 'Tracker',
-            subtitle: 'Check off your workouts for the day!',
-            icon: Icons.track_changes,
+            title: 'Workout Plan',
+            subtitle: 'Create your workout plan for the day!',
+            icon: Icons.format_list_bulleted_add,
             navigateTo: TrackerPage(),
           ),
           MyCard(
