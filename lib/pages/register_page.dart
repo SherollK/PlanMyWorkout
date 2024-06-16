@@ -63,12 +63,26 @@ class RegisterPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               
-              const SizedBox(height: 150),
+              const SizedBox(height: 110),
+
+              //App Name
+              Text(
+                "FitLife!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,               
+                ),
+              ),
+        
+              const SizedBox(height: 25),
+
               //logo
               Icon(
                 Icons.fitness_center,
                 size: 90,
-                color: Theme.of(context).colorScheme.primary,
+                color: Colors.green.shade400,
               ),
         
               const SizedBox(height: 20),
@@ -136,7 +150,7 @@ class RegisterPage extends StatelessWidget {
                       style: 
                         TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary),
+                          color: Colors.green.shade400,),
                     ),
                   ),
                 ],
