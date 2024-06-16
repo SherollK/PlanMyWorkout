@@ -27,8 +27,8 @@ class MyDrawer extends StatelessWidget{
                 child: Center(
                   child: Icon(
                     Icons.fitness_center,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 70,
+                    color: Colors.green.shade400,
+                    size: 80,
                   ),
                 ),
               ),
